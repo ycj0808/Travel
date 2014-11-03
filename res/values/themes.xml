@@ -2,23 +2,8 @@
 <resources>
    <style name="TravelBase" parent="@android:style/Theme.Light"></style>
    <style name="TravelTheme" parent="TravelBase">
-        <item name="menuDrawerStyle">@style/MenuDrawerStyle</item>
    </style>
-    <style name="TravelTheme.RightDrawer" parent="TravelBase">
-
-        <item name="menuDrawerStyle">@style/MenuDrawerStyle.Right</item>
-    </style>
-
-    <style name="TravelTheme.TopDrawer" parent="TravelBase">
-        <item name="menuDrawerStyle">@style/MenuDrawerStyle.Top</item>
-    </style>
-
-    <style name="TravelTheme.BottomDrawer" parent="TravelBase">
-        <item name="menuDrawerStyle">@style/MenuDrawerStyle.Bottom</item>
-    </style>
-
     <style name="TravelTheme.Sherlock" parent="Theme.Sherlock.Light.DarkActionBar">
-        <item name="menuDrawerStyle">@style/MenuDrawerStyle</item>
     </style>
     
     <style name="TravelTheme.Sherlock.ActionBar" parent="Theme.Sherlock.Light.DarkActionBar">
