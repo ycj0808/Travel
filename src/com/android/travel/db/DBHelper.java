@@ -173,6 +173,29 @@ public class DBHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.query(TB_CUSTOM, null, selection, selectionArgs, null, null, null);
 		return cursor;
 	}
+	
+	/**
+	 * 客户登记
+	 * @param values
+	 * @return
+	 */
+	public long insertRegister(ContentValues values){
+		long res=-1;
+		SQLiteDatabase db = getWritableDatabase();  
+		res=db.insert(TB_REGISTER,null,values);
+		return res;
+	}
+	/**
+	 * 更新客户信息
+	 * @param values
+	 * @param rid
+	 */
+	public void updateCustomers(ContentValues values,String rid){
+		SQLiteDatabase db = getWritableDatabase();
+		db.update(TB_REGISTER, values, "_id=?", new String[]{rid});
+	}
+	
+	
 	/**
 	 * 关闭数据库
 	 */
