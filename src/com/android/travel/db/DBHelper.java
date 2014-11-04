@@ -173,6 +173,85 @@ public class DBHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.query(TB_CUSTOM, null, selection, selectionArgs, null, null, null);
 		return cursor;
 	}
+	
+	/**
+	 * 客户登记
+	 * @param values
+	 * @return
+	 */
+	public long insertRegister(ContentValues values){
+		long res=-1;
+		SQLiteDatabase db = getWritableDatabase();  
+		res=db.insert(TB_REGISTER,null,values);
+		return res;
+	}
+	/**
+	 * 更新客户信息
+	 * @param values
+	 * @param rid
+	 */
+	public void updateRegister(ContentValues values,String rid){
+		SQLiteDatabase db = getWritableDatabase();
+		db.update(TB_REGISTER, values, "_id=?", new String[]{rid});
+	}
+	/**
+	 * 删除客户信息
+	 * @param rid
+	 */
+	public void delRegister(String rid){
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(TB_REGISTER, "_id=?", new String[]{rid});
+	}
+	/**
+	 * 查询
+	 * @param selection
+	 * @param selectionArgs
+	 * @return
+	 */
+	public Cursor qryRegisters(String selection,String[]selectionArgs){
+		SQLiteDatabase db = getWritableDatabase();
+		Cursor cursor = db.query(TB_REGISTER, null, selection, selectionArgs, null, null, null);
+		return cursor;
+	}
+	/**
+	 * 查询登记详情
+	 * @param values
+	 * @return
+	 */
+	public long insertRegisterDetail(ContentValues values){
+		long res=-1;
+		SQLiteDatabase db = getWritableDatabase();  
+		res=db.insert(TB_REGISTER_DETAIL,null,values);
+		return res;
+	}
+	/**
+	 * 更新登记详情
+	 * @param values
+	 * @param rdid
+	 */
+	public void updateRegisterDetail(ContentValues values,String rdid){
+		SQLiteDatabase db = getWritableDatabase();
+		db.update(TB_REGISTER_DETAIL, values, "_id=?", new String[]{rdid});
+	}
+	/**
+	 * 删除登记详情
+	 * @param rdid
+	 */
+	public void delRegisterDetail(String rdid){
+		SQLiteDatabase db = getWritableDatabase();
+		db.delete(TB_REGISTER_DETAIL, "_id=?", new String[]{rdid});
+	}
+	/**
+	 * 查询登记详情列表
+	 * @param selection
+	 * @param selectionArgs
+	 * @return
+	 */
+	public Cursor qryRegisterDetail(String selection,String[]selectionArgs){
+		SQLiteDatabase db = getWritableDatabase();
+		Cursor cursor = db.query(TB_REGISTER, null, selection, selectionArgs, null, null, null);
+		return cursor;
+	}
 	/**
 	 * 关闭数据库
 	 */

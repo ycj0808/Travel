@@ -3,25 +3,38 @@
     <style name="AppBaseTheme" parent="android:Theme.Light"></style>
     <style name="AppTheme" parent="AppBaseTheme"></style>
 
-    <style name="Travel"></style>
-    <style name="Travel.NavBar"></style>
-    <style name="Travel.Category">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingStart" tools:ignore="NewApi">16dp</item>
-        <item name="android:paddingEnd" tools:ignore="NewApi">16dp</item>
-        <item name="android:background">@drawable/md__category_background</item>
+    <!-- 底部选项卡样式 -->
+    <style name="main_tab_bottom">
+        <item name="android:textColor">#888888</item> 
+        <item name="android:textSize">16sp</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:button">@null</item>
         <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:paddingTop">3.0dp</item>
+        <item name="android:paddingBottom">3.0dp</item>
+        <item name="android:drawablePadding">2.0dp</item>
     </style>
     
-    <!-- 自定义样式 -->
-    <style name="Travel.NavBar.Title">
-        <item name="android:textSize">@dimen/navbar_title_size</item>
-        <item name="android:textColor">@color/white</item>
+     <!-- switch -->
+	 <style name="switch_optimus" parent="android:Widget.CompoundButton">
+        <item name="thumb">@drawable/switch_track_red_bg</item>
+        <item name="track">@drawable/switch_slider</item>
+        <item name="textOn">@string/textOn</item>
+        <item name="textOff">@string/textOff</item>
+        <item name="thumbTextPadding">22.0dip</item>
+        <item name="switchTextAppearance">@style/TextAppearanceSwitch</item>
+        <item name="switchMinWidth">75.0dip</item>
+        <item name="switchPadding">5.0dip</item>
+    </style>
+    
+    <!-- switch -->
+    <style name="TextAppearanceSwitch" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColorHighlight">?android:textColorHighlight</item>
+        <item name="android:textColorHint">?android:textColorHint</item>
+        <item name="android:textColorLink">?android:textColorLink</item>
     </style>
 </resources>
