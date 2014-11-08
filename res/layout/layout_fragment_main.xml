@@ -3,8 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-	<TextView android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="主页"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/tv_spinner_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="类型" />
+
+        <Spinner
+            android:id="@+id/spinner01"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_spinner_tip"
+            android:background="@drawable/xiala_btn_press" />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/spinner01"
+            android:background="@drawable/inputbg_normal"
+            android:inputType="text" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_button"
+        android:text="查询" />
+    <zrc.widget.ZrcListView
+        android:id="@+id/zListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:divider="@drawable/line"
+        android:listSelector="#00000000">
+    </zrc.widget.ZrcListView>
 </LinearLayout>

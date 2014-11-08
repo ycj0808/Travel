@@ -5,5 +5,14 @@
     <color name="md__transparent">#00000000</color>
     <color name="md__defaultBackground">#FF555555</color>
     
+    <!-- 蓝色 -->
+    <color name="base_blue">#3FACDD</color>
+    <!-- 红色 -->
+    <color name="base_red">#FA655F</color>
     
+    <color name="white">#FFFFFF</color>
+    
+    <color name="list_devider_color">#fff2f2f2</color>
+	<color name="tv_gray">#969696</color> 
+	<color name="common_bg">#FBF8F3</color>
 </resources>
