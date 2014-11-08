@@ -1,8 +1,15 @@
 package com.android.travel.activity;
 
 import com.android.travel.R;
+import com.android.travel.db.DBHelper;
+import com.android.travel.util.PreferenceConstants;
+import com.android.travel.util.PreferenceUtils;
+import com.ycj.android.common.utils.CryptUtils;
+import com.ycj.android.common.utils.SecurityUtils;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,13 +21,29 @@ import android.os.Handler;
  */
 public class SplashActivity extends Activity {
 	private Handler mHandler;
+	private DBHelper helper=null;
+	private Context mContext;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_activity_splash);
+		mContext=this;
+		helper=new DBHelper(mContext);
+		boolean is_first_boot=PreferenceUtils.getPrefBoolean(mContext, PreferenceConstants.IS_First_BOOT, false);
+		if(!is_first_boot){
+			ContentValues values=new ContentValues();
+			values.put("uname", "admin");
+			values.put("pwd", CryptUtils.md5("123456"));
+			helper.insertUser(values);
+		}
 		mHandler = new Handler();
 		mHandler.postDelayed(gotoMainAct, 3000);
 	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		helper.close();
+	};
 	
 	//跳转到主页面
 	Runnable gotoMainAct = new Runnable() {
@@ -30,4 +53,5 @@ public class SplashActivity extends Activity {
 			finish();
 		}
 	};
+	
 }
