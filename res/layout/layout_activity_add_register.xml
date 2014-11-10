@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">   
+    <RelativeLayout
+        android:id="@+id/layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_phone" 
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="姓名"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:layout_toRightOf="@+id/tv_name"
+            android:background="@drawable/inputbg_normal"
+            android:inputType="text" 
+            android:text=""/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_save"
+         >
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="手机"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:background="@drawable/inputbg_normal"
+            android:layout_toRightOf="@+id/tv_phone"
+            android:inputType="phone" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:background="@drawable/btn_blue_bg"
+        android:text="保存" />
+</RelativeLayout>

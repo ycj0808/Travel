@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_notice_selector"
+    android:padding="10dp">
+    
+	<TextView 
+	    android:id="@+id/tv_menu_name_tip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textSize="16sp"
+	    android:text="项目名称:"/>
+	
+	<TextView android:id="@+id/tv_menu_name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:textColor="@color/tv_gray"
+	    android:textSize="16sp"
+	    android:text="住房"/>
+	<TextView 
+	    android:id="@+id/tv_menu_price_tip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_menu_name_tip"
+	    android:layout_marginTop="10dp"
+	    android:textSize="16sp"
+	    android:text="项目单价:(/人)"/>
+	
+	<TextView android:id="@+id/tv_menu_price"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/tv_menu_name_tip"
+	    android:layout_marginLeft="35dp"
+	    android:layout_marginTop="10dp"
+	    android:textColor="@color/tv_gray"
+	    android:textSize="16sp"
+	    android:text=""/>
+	
+	<TextView 
+	    android:id="@+id/tv_person_num_tip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_menu_price_tip"
+	    android:layout_marginTop="10dp"
+	    android:textSize="16sp"
+	    android:text="参与人数:(人)"/>
+	<TextView android:id="@+id/tv_person_num"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/tv_menu_price_tip"
+	    android:layout_marginLeft="35dp"
+	    android:layout_marginTop="10dp"
+	    android:textColor="@color/tv_gray"
+	    android:textSize="16sp"
+	    android:text=""/>
+	<TextView 
+	    android:id="@+id/tv_menu_remark_tip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_person_num_tip"
+	    android:layout_marginTop="10dp"
+	    android:textSize="16sp"
+	    android:text="备注信息:"/>
+	<TextView 
+	    android:id="@+id/tv_menu_remark"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_menu_remark_tip"
+	    android:layout_marginTop="10dp"
+	    android:textColor="@color/tv_gray"
+	    android:textSize="14sp"
+	    android:text=""/>
+</RelativeLayout>

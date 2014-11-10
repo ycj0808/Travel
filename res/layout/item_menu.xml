@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_notice_selector"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tv_menu_name_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="菜单姓名:" />
+
+    <TextView
+        android:id="@+id/tv_menu_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_menu_name_tip"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_menu_name_tip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tv_price_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_menu_name_tip"
+        android:layout_marginTop="10dp"
+        android:text="菜单单价:" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_price_tip"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_price_tip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tv_remark_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_price_tip"
+        android:layout_marginTop="10dp"
+        android:text="备注信息:" />
+
+    <TextView
+        android:id="@+id/tv_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_remark_tip"
+        android:layout_marginTop="10dp"
+        android:text="" />
+
+</RelativeLayout>
