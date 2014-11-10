@@ -7,6 +7,8 @@
     
     <!-- 蓝色 -->
     <color name="base_blue">#3FACDD</color>
+    
+    <color name="blue_pressed">#34B0E5</color>
     <!-- 红色 -->
     <color name="base_red">#FA655F</color>
     

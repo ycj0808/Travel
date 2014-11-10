@@ -54,6 +54,21 @@
             android:name="com.android.travel.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!-- 添加登记 -->
+        <activity
+            android:name="com.android.travel.activity.AddRegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!-- 登记详情 -->
+        <activity
+            android:name="com.android.travel.activity.RegisterDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <!-- 添加菜单 -->
+        <activity
+            android:name="com.android.travel.activity.AddMenuActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 
 </manifest>

@@ -29,16 +29,16 @@
             style="@style/main_tab_bottom"
             android:layout_marginTop="0.5dip"
             android:drawableTop="@drawable/rb_home_blue_bg"
-            android:text="@string/rb_home" />
+            android:text="客户登记" />
 
         <RadioButton
             android:id="@+id/rb_tab_consult"
             style="@style/main_tab_bottom"
             android:layout_marginTop="0.5dip"
             android:drawableTop="@drawable/rb_consult_blue_bg"
-            android:text="@string/rb_consult" />
+            android:text="菜单管理" />
 
-        <RadioButton
+<!--         <RadioButton
             android:id="@+id/rb_tab_mine"
             style="@style/main_tab_bottom"
             android:layout_marginTop="0.5dip"
@@ -50,7 +50,7 @@
             style="@style/main_tab_bottom"
             android:layout_marginTop="0.5dip"
             android:drawableTop="@drawable/rb_find_blue_bg"
-            android:text="@string/rb_find" />
+            android:text="@string/rb_find" /> -->
     </RadioGroup>
 
 </LinearLayout>

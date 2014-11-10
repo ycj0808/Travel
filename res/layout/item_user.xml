@@ -3,50 +3,56 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_notice_selector"
-    android:padding="10dp">
-    
-	<TextView android:id="@+id/tv_username_tip"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="姓名:"
-	    />
-	<TextView android:id="@+id/tv_name"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@+id/tv_username_tip"
-	    android:layout_alignBottom="@+id/tv_username_tip"
-	    android:layout_marginLeft="10dp"
-	    android:text="杨长进"/>
-	
-	<TextView android:id="@+id/tv_phone_tip"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@+id/tv_name"
-	    android:layout_alignBottom="@+id/tv_username_tip"
-	    android:layout_marginLeft="10dp"
-	    android:text="手机号:"
-	    />
-		<TextView android:id="@+id/tv_phone"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_toRightOf="@+id/tv_phone_tip"
-	    android:layout_alignBottom="@+id/tv_username_tip"
-	    android:layout_marginLeft="10dp"
-	    android:text="15063839170"/>
-		
-	<TextView android:id="@+id/tv_datetime_tip"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_marginTop="10dp"
-	    android:layout_below="@+id/tv_username_tip"
-	    android:text="登记时间:"
-	    />	
-	<TextView android:id="@+id/tv_datetime"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_marginTop="10dp"
-	    android:layout_toRightOf="@+id/tv_datetime_tip"
-	    android:layout_below="@+id/tv_username_tip"
-	    android:text="2014年11月6日 21:48:56"
-	    />	
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tv_username_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="客户姓名:" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_username_tip"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_username_tip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tv_phone_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_username_tip"
+        android:layout_marginTop="10dp"
+        android:text="联系方式:" />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_phone_tip"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_phone_tip"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tv_datetime_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_phone_tip"
+        android:layout_marginTop="10dp"
+        android:text="登记时间:" />
+
+    <TextView
+        android:id="@+id/tv_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_phone_tip"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_datetime_tip"
+        android:text="" />
+
 </RelativeLayout>

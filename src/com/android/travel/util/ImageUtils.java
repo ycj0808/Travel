@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -20,6 +21,8 @@ import android.graphics.Paint;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -278,5 +281,102 @@ public class ImageUtils {
 	public static void setImageBg(ImageView view,int mColor) {
 		view.setImageBitmap(getAlphaBitmap(
 				ImageUtils.drawableToBitmap(view.getDrawable()), mColor));
+	}
+	
+	/**
+	 * 设置View背景
+	 * @param context
+	 * @param idNormal
+	 * @param normalColor
+	 * @param selectColor
+	 * @return
+	 */
+	public static StateListDrawable newSelector(Context context, int idNormal,
+			int normalColor, int selectColor) {
+		StateListDrawable bg = new StateListDrawable();
+		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),idNormal);
+		Bitmap mNormalBitmap = getAlphaBitmap(bitmap, normalColor);
+		Bitmap mPressedBitmap = getAlphaBitmap(bitmap, selectColor);
+		Drawable normalDrawable = bitmapToDrawable(mNormalBitmap);
+		Drawable pressedDrawable = bitmapToDrawable(mPressedBitmap);
+		bg.addState(new int[] { android.R.attr.state_pressed,
+				android.R.attr.state_enabled }, pressedDrawable);
+		bg.addState(new int[] { android.R.attr.state_enabled,
+				android.R.attr.state_focused }, pressedDrawable);
+		bg.addState(new int[] { android.R.attr.state_enabled }, normalDrawable);
+		bg.addState(new int[] { android.R.attr.state_focused }, pressedDrawable);
+		return bg;
+	}
+	
+	 public static StateListDrawable newSelector(Context context, int idNormal,int normalColor,int selectColor,int unableColor){
+		 StateListDrawable bg = new StateListDrawable();
+		 Bitmap bitmap= BitmapFactory.decodeResource(context.getResources(), idNormal);
+		 Bitmap mNormalBitmap =getAlphaBitmap(bitmap, normalColor);
+		 Bitmap mPressedBitmap=getAlphaBitmap(bitmap, selectColor);
+		 Bitmap mUnableBitmap=null;
+		 if(unableColor!=-1){
+			 mUnableBitmap=getAlphaBitmap(bitmap, unableColor);
+		 }
+		 Drawable normalDrawable=bitmapToDrawable(mNormalBitmap);
+		 Drawable pressedDrawable=bitmapToDrawable(mPressedBitmap);
+		 Drawable unableDrawable=bitmapToDrawable(mUnableBitmap);
+		 bg.addState(new int[]{android.R.attr.state_pressed,android.R.attr.state_enabled}, pressedDrawable);
+		 bg.addState(new int[] { android.R.attr.state_enabled, android.R.attr.state_focused }, pressedDrawable);
+		 bg.addState(new int[] { android.R.attr.state_enabled }, normalDrawable);
+		 bg.addState(new int[] { android.R.attr.state_focused }, pressedDrawable);
+		 
+		 if(unableDrawable!=null){
+			 bg.addState(new int[] { android.R.attr.state_window_focused }, unableDrawable);
+		 }
+		 bg.addState(new int[] {}, normalDrawable);
+		 return bg;
+	 }
+	
+	 /**
+	  * 设置View背景变化
+	  * @param normalDrawable
+	  * @param pressedDrawable
+	  * @return
+	  */
+	 public static StateListDrawable newSelector(Drawable normalDrawable,Drawable pressedDrawable){
+		 StateListDrawable bg = new StateListDrawable();
+		 bg.addState(new int[]{android.R.attr.state_pressed,android.R.attr.state_enabled}, pressedDrawable);
+		 bg.addState(new int[] { android.R.attr.state_enabled, android.R.attr.state_focused }, pressedDrawable);
+		 bg.addState(new int[] { android.R.attr.state_enabled }, normalDrawable);
+		 bg.addState(new int[] { android.R.attr.state_focused }, pressedDrawable);
+		 return bg;
+	 }
+	/**
+	 * 文字颜色
+	 * @param normalColor
+	 * @param pressColor
+	 * @param unableColor
+	 * @return
+	 */
+	public static ColorStateList createColorState(int normalColor,int pressColor,int unableColor){
+		 int[] colors = new int[] { pressColor, pressColor, normalColor, pressColor, unableColor, normalColor };
+		 int[][] states=new int[6][];
+		 states[0] = new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled };
+	     states[1] = new int[] { android.R.attr.state_enabled, android.R.attr.state_focused };
+	     states[2] = new int[] { android.R.attr.state_enabled };
+	     states[3] = new int[] { android.R.attr.state_focused };
+	     states[4] = new int[] { android.R.attr.state_window_focused };
+	     states[5] = new int[] {};
+	     ColorStateList colorList=new ColorStateList(states,colors);
+	     return colorList;
+	}
+	
+	/**
+	 * 创建LayerDrawable
+	 * @param lay0
+	 * @param lay1
+	 * @return
+	 */
+	public static LayerDrawable createLayerDrawable(Drawable lay0,Drawable lay1){
+		Drawable [] layers=new Drawable[2];
+		layers[0]=lay0;
+		layers[1]=lay1;
+		LayerDrawable layerDrawable=new LayerDrawable(layers);
+		return layerDrawable;
 	}
 }

@@ -23,11 +23,17 @@ public class CustomerService {
 	/**
 	 * 添加客户信息
 	 */
-	public void addCustomer(String cname,String cphone){
+	public int addCustomer(String cname,String cphone){
 		SQLiteDatabase db=helper.getWritableDatabase();
 		String sql="insert into tb_custom(cname,cphone) values(?,?)";
 		db.execSQL(sql, new Object[]{cname,cphone});
 		LogUtil.i("添加客户信息...");
+		Map<String,Object> map=getCustomerByPhone(cphone);
+		if(map==null||!map.containsKey("cid")){
+			return -1;
+		}else{
+			return Integer.valueOf(map.get("cid").toString());
+		}
 	}
 	/**
 	 * 更新用户信息

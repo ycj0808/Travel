@@ -38,7 +38,7 @@
         android:id="@+id/layout_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true" >
+        android:layout_above="@+id/btn_login" >
 
         <TextView
             android:id="@+id/tv_pwd"
@@ -66,7 +66,8 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/layout_pwd"
+        android:background="@drawable/btn_blue_bg"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"

@@ -8,13 +8,17 @@ import java.util.Map;
 import zrc.widget.SimpleFooter;
 import zrc.widget.SimpleHeader;
 import zrc.widget.ZrcListView;
+import zrc.widget.ZrcListView.OnItemClickListener;
 import zrc.widget.ZrcListView.OnStartListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -31,9 +35,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.travel.R;
+import com.android.travel.activity.AddRegisterActivity;
+import com.android.travel.activity.RegisterDetailActivity;
 import com.android.travel.db.DBHelper;
+import com.android.travel.db.RegisterService;
 import com.android.travel.util.ImageUtils;
+import com.android.travel.util.SerializableMap;
 import com.android.travel.util.TimeUtil;
 import com.android.travel.util.ToastUtil;
 /**
@@ -52,10 +63,17 @@ public class MainFragment extends SherlockFragment {
 	private ArrayAdapter<String> adapter;
 	private static int curr_item=0;
 	
-	private List<Map<String,String>> listUsers=new ArrayList<Map<String,String>>();
-	private DBHelper helper;
+	private List<Map<String,Object>> listUsers=new ArrayList<Map<String,Object>>();
+//	private DBHelper helper;
 	
 	private RegisterAdapter registerAdapter;
+	
+	private static int PAGE_NUM=0;
+	private static final int PAGE_SIZE=25;
+	
+	private static int count=0;
+	
+	private RegisterService registerService;
 	
 	private Handler handler;
 	@Override
@@ -72,8 +90,10 @@ public class MainFragment extends SherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		helper=new DBHelper(getActivity());
+//		helper=new DBHelper(getActivity());
 		handler = new Handler();
+		registerService=new RegisterService(getActivity());
+		
 	}
 	
 	@Override
@@ -89,7 +109,7 @@ public class MainFragment extends SherlockFragment {
 		spinner=(Spinner) view.findViewById(R.id.spinner01);
 		et_search=(EditText) view.findViewById(R.id.et_search);
 		zListView=(ZrcListView) view.findViewById(R.id.zListView);
-		
+				
         // 设置下拉刷新的样式（可选，但如果没有Header则无法下拉刷新）
         SimpleHeader header = new SimpleHeader(getActivity());
         header.setTextColor(0xff0066aa);
@@ -145,6 +165,28 @@ public class MainFragment extends SherlockFragment {
                 refresh();
             }
         });
+		//加载更多
+		zListView.setOnLoadMoreStartListener(new OnStartListener() {
+			@Override
+			public void onStart() {
+				loadMore();
+			}
+		});
+		//单击
+		zListView.setOnItemClickListener(new OnItemClickListener() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onItemClick(ZrcListView parent, View view, int position, long id) {
+				Map<String,Object> map=(Map<String, Object>) parent.getItemAtPosition(position);
+				SerializableMap sMap=new SerializableMap();
+				sMap.setMap(map);
+				Bundle bundle=new Bundle();
+				bundle.putSerializable("data", sMap);
+				Intent intent=new Intent(getActivity(),RegisterDetailActivity.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+		});
 	}
 	
 	
@@ -177,6 +219,7 @@ public class MainFragment extends SherlockFragment {
 			ViewHolder viewHolder;
 			if(convertView==null||convertView.getTag(R.id.tag_user+position)==null){
 				viewHolder=new ViewHolder();
+				convertView=LayoutInflater.from(getActivity()).inflate(R.layout.item_user, null);
 				viewHolder.tv_name=(TextView) convertView.findViewById(R.id.tv_name);
 				viewHolder.tv_phone=(TextView) convertView.findViewById(R.id.tv_phone);
 				viewHolder.tv_datetime=(TextView) convertView.findViewById(R.id.tv_datetime);
@@ -186,10 +229,10 @@ public class MainFragment extends SherlockFragment {
 			}
 			
 			if(listUsers!=null&&listUsers.size()>0){
-				Map<String,String> map=listUsers.get(position);
-				viewHolder.tv_name.setText(map.get("uname"));
-				viewHolder.tv_phone.setText(map.get("phone"));
-				viewHolder.tv_datetime.setText(TimeUtil.getFormatTime(Long.valueOf(map.get("register_time"))));
+				Map<String,Object> map=listUsers.get(position);
+				viewHolder.tv_name.setText(map.get("cname").toString());
+				viewHolder.tv_phone.setText(map.get("cphone").toString());
+				viewHolder.tv_datetime.setText(map.get("register_time").toString());
 			}
 			return convertView;
 		}
@@ -204,22 +247,38 @@ public class MainFragment extends SherlockFragment {
 	 *  
 	 */
 	private void refresh(){
-		switch (curr_item) {
-		case 0:
+		switch(curr_item){
+		case 0://查询所有的客户登记
 			handler.postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					Cursor cursor=helper.qryCustomerRegisters("", null);
+					PAGE_NUM=0;
 					listUsers.clear();
-					while(cursor.moveToNext()){
-						Map<String,String> map=new HashMap<String,String>();
-						map.put("rid", String.valueOf(cursor.getInt(0)));
-						map.put("cid", String.valueOf(cursor.getInt(1)));
-						map.put("uname", cursor.getString(2));
-						map.put("phone", cursor.getString(3));
-						map.put("register_time", String.valueOf(cursor.getLong(4)));
-						listUsers.add(map);
+					listUsers=registerService.getRegisters(PAGE_NUM*PAGE_SIZE, PAGE_SIZE);
+					if(listUsers.size()==0){
+						count=0;
+						ToastUtil.showShort(getActivity(), "没有查询到数据");
+					}else{
+						Map<String,Object> map=listUsers.get(0);
+						count=Integer.valueOf(map.get("count").toString());
 					}
+					registerAdapter.notifyDataSetChanged();
+                    zListView.setRefreshSuccess("加载成功"); // 通知加载成功
+                    zListView.startLoadMore(); // 开启LoadingMore功能
+				}
+			},2 * 1000);
+			break;
+		case 1:
+			if("".equals(et_search.getText().toString())){
+				ToastUtil.showShort(getActivity(), "请输入查询内容");
+				return;
+			}
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					PAGE_NUM=0;
+					listUsers.clear();
+					listUsers=registerService.getRegistersByName(et_search.getText().toString());
 					if(listUsers.size()==0){
 						ToastUtil.showShort(getActivity(), "没有查询到数据");
 					}
@@ -228,63 +287,71 @@ public class MainFragment extends SherlockFragment {
 				}
 			},2 * 1000);
 			break;
-		case 1:
-			if("".equals(et_search.getText().toString())){
-				ToastUtil.showShort(getActivity(), "请输入查询内容");
-				return;
-			}else{
-				handler.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						Cursor cursor=helper.qryCustomerRegisters(" and c.cname=?", new String []{et_search.getText().toString()});
-						listUsers.clear();
-						while(cursor.moveToNext()){
-							Map<String,String> map=new HashMap<String,String>();
-							map.put("rid", String.valueOf(cursor.getInt(0)));
-							map.put("cid", String.valueOf(cursor.getInt(1)));
-							map.put("uname", cursor.getString(2));
-							map.put("phone", cursor.getString(3));
-							map.put("register_time", String.valueOf(cursor.getLong(4)));
-							listUsers.add(map);
-						}
-						if(listUsers.size()==0){
-							ToastUtil.showShort(getActivity(), "没有查询到数据");
-						}
-						registerAdapter.notifyDataSetChanged();
-	                    zListView.setRefreshSuccess("加载成功"); // 通知加载成功
-					}
-				},2 * 1000);
-			}
-			break;
 		case 2:
 			if("".equals(et_search.getText().toString())){
 				ToastUtil.showShort(getActivity(), "请输入查询内容");
 				return;
-			}else{
-				handler.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						Cursor cursor=helper.qryCustomerRegisters("", new String []{et_search.getText().toString()});
-						listUsers.clear();
-						while(cursor.moveToNext()){
-							Map<String,String> map=new HashMap<String,String>();
-							map.put("rid", String.valueOf(cursor.getInt(0)));
-							map.put("cid", String.valueOf(cursor.getInt(1)));
-							map.put("uname", cursor.getString(2));
-							map.put("phone", cursor.getString(3));
-							map.put("register_time", String.valueOf(cursor.getLong(4)));
-							listUsers.add(map);
-						}
-						if(listUsers.size()==0){
-							ToastUtil.showShort(getActivity(), "没有查询到数据");
-						}
-						registerAdapter.notifyDataSetChanged();
-	                    zListView.setRefreshSuccess("加载成功"); // 通知加载成功
-					}
-				},2 * 1000);
 			}
-			break;					
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					PAGE_NUM=0;
+					listUsers.clear();
+					listUsers=registerService.getRegistersByPhone(et_search.getText().toString());
+					if(listUsers.size()==0){
+						ToastUtil.showShort(getActivity(), "没有查询到数据");
+					}
+					registerAdapter.notifyDataSetChanged();
+                    zListView.setRefreshSuccess("加载成功"); // 通知加载成功
+				}
+			},2 * 1000);
+			break;	
 		}
+	}
+	/**
+	 * 加载更多
+	 */
+	private void loadMore(){
+		if(curr_item==0){
+			handler.postDelayed(new Runnable() {
+	            @Override
+	            public void run() {
+	            	PAGE_NUM++;
+	            	int firstRes=PAGE_NUM*PAGE_SIZE;
+	            	if(firstRes<count){
+	            		List<Map<String,Object>> list=registerService.getRegisters(firstRes+1, PAGE_SIZE);
+	            		listUsers.addAll(list);
+		            	registerAdapter.notifyDataSetChanged();
+		            	zListView.setLoadMoreSuccess();
+	            	}else{
+	            		zListView.stopLoadMore();
+	            	}
+
+	            }
+	        }, 2 * 1000);
+		}else{
+			count=0;
+			return;
+		}
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		MenuItem addItem=menu.add(Menu.NONE, 0, 0, "添加");
+		addItem.setIcon(R.drawable.icon_add);
+		addItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+		case 0:
+			Intent intent=new Intent(getActivity(),AddRegisterActivity.class);
+			startActivity(intent);
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
 

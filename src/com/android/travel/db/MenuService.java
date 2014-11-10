@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.android.travel.util.LogUtil;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,11 +25,19 @@ public class MenuService {
 	/**
 	 * 添加菜单
 	 */
-	public void addMenu(String mname,String mtype,double mprice,String mremark){
+	public long addMenu(String mname,String mtype,double mprice,String mremark){
+		long res=-1;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="insert into tb_menu(mname,mtype,mprice,mremark) values(?,?,?,?)";
-		db.execSQL(sql, new Object[]{mname,mtype,mprice,mremark});
+//		String sql="insert into tb_menu(mname,mtype,mprice,mremark) values(?,?,?,?)";
+//		db.execSQL(sql, new Object[]{mname,mtype,mprice,mremark});
+		ContentValues values=new ContentValues();
+		values.put("mname", mname);
+		values.put("mtype", mtype);
+		values.put("mprice", mprice);
+		values.put("mremark", mremark);
+		res=db.insert("tb_menu", null, values);
 		LogUtil.i("添加菜单项...");
+		return res;
 	}
 	/**
 	 * 修改

@@ -4,13 +4,16 @@ import com.actionbarsherlock.app.ActionBar;
 import com.android.travel.R;
 import com.android.travel.db.DBHelper;
 import com.android.travel.db.UserService;
+import com.android.travel.util.ImageUtils;
 import com.android.travel.util.ToastUtil;
 import com.ycj.android.common.utils.CryptUtils;
 import com.ycj.android.ui.utils.ToastUtils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,11 +51,15 @@ public class LoginActivity extends BaseActivity {
 		actionBar.setTitle("登陆");
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void initView(){
 		mContext=this;
 		et_account=(EditText) findViewById(R.id.et_account);
 		et_pwd=(EditText) findViewById(R.id.et_pwd);
 		btn_login=(Button) findViewById(R.id.btn_login);
+//		Resources rs=getResources();
+//		StateListDrawable drawable=ImageUtils.newSelector(mContext, R.drawable.bg_button, rs.getColor(R.color.base_blue), rs.getColor(R.color.blue_pressed));
+//		btn_login.setBackgroundDrawable(drawable);
 		userService=new UserService(mContext);
 //		helper=new DBHelper(mContext);
 	}
