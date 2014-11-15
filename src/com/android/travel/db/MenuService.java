@@ -25,7 +25,7 @@ public class MenuService {
 	/**
 	 * 添加菜单
 	 */
-	public long addMenu(String mname,String mtype,double mprice,String mremark){
+	public long addMenu(String mname,String mtype,double mprice,String mremark,int unit){
 		long res=-1;
 		SQLiteDatabase db=helper.getWritableDatabase();
 //		String sql="insert into tb_menu(mname,mtype,mprice,mremark) values(?,?,?,?)";
@@ -35,6 +35,7 @@ public class MenuService {
 		values.put("mtype", mtype);
 		values.put("mprice", mprice);
 		values.put("mremark", mremark);
+		values.put("unit", unit);
 		res=db.insert("tb_menu", null, values);
 		LogUtil.i("添加菜单项...");
 		return res;
@@ -45,21 +46,45 @@ public class MenuService {
 	 * @param mprice
 	 * @param mremark
 	 */
-	public void updateMenu(int mid,String mname,double mprice,String mremark){
+	public int updateMenu(int mid,String mname,double mprice,String mremark,int unit){
+		int res=0;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="update tb_menu set mname=?,mprice=?,mremark=? where _id=?";
-		db.execSQL(sql, new Object[]{mname,mprice,mremark,mid});
+//		String sql="update tb_menu set mname=?,mprice=?,mremark=? where _id=?";
+//		db.execSQL(sql, new Object[]{mname,mprice,mremark,mid});
+		ContentValues values=new ContentValues();
+		values.put("mname", mname);
+		values.put("mprice", mprice);
+		values.put("mremark", mremark);
+		values.put("unit", unit);
+		res=db.update("tb_menu", values, "_id=?", new String[]{String.valueOf(mid)});
 		LogUtil.i("修改菜单项...");
+		return res;
 	}
 	/**
 	 * 删除菜单
 	 * @param mid
 	 */
-	public void delMenu(int mid){
+	public int delMenu(int mid){
+		int res=0;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="delete from tb_menu where _id=?";
-		db.execSQL(sql, new Object[]{mid});
+//		String sql="delete from tb_menu where _id=?";
+//		db.execSQL(sql, new Object[]{mid});
+		res=db.delete("tb_menu", "_id=?", new String[]{String.valueOf(mid)});
 		LogUtil.i("删除菜单项...");
+		return res;
+	}
+	/**
+	 * 删除menu
+	 * @param mid
+	 * @return
+	 */
+	public int updateMenuStatus(int mid){
+		int res=0;
+		SQLiteDatabase db=helper.getWritableDatabase();
+		ContentValues values=new ContentValues();
+		values.put("mstatus", 0);
+		res=db.update("tb_menu", values, "_id=?", new String[]{String.valueOf(mid)});
+		return res;
 	}
 	/**
 	 * 获取菜单
@@ -67,7 +92,7 @@ public class MenuService {
 	 */
 	public List<Map<String,Object>> getMenus(){
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="select _id,mname,mtype,mprice,mremark from tb_menu";
+		String sql="select _id,mname,mtype,mprice,mremark,unit from tb_menu where mstatus=1";
 		List<Map<String,Object>> listMenus=new ArrayList<Map<String,Object>>();
 		Cursor cursor=db.rawQuery(sql,null);
 		while(cursor.moveToNext()){
@@ -77,9 +102,10 @@ public class MenuService {
 			map.put("mtype", cursor.getString(2));
 			map.put("mprice", cursor.getDouble(3));
 			map.put("mremark", cursor.getString(4));
+			map.put("unit", cursor.getInt(5));
 			listMenus.add(map);
 		}
-		LogUtil.i("查询菜单项...");
+		LogUtil.i("查询菜单项..."+listMenus.toString());
 		return listMenus;
 	}
 	/**
@@ -90,7 +116,7 @@ public class MenuService {
 	public boolean isExistsMenu(String mname){
 		boolean flag=false;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="select _id from tb_menu where mname=?";
+		String sql="select _id from tb_menu where mname=? and mstatus=1";
 		Cursor cursor=db.rawQuery(sql, new String[]{mname});
 		flag=cursor.moveToNext();
 		LogUtil.i("查询该菜单项是否已存在...");

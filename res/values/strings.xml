@@ -9,4 +9,10 @@
     <string name="rb_consult">资讯</string>
     <string name="rb_mine">我的</string>
     <string name="rb_find">发现</string>
+    
+    <string-array name="unit_type">
+        <item>小时</item>
+        <item>天</item>
+        <item>半天</item>
+    </string-array>
 </resources>

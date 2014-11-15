@@ -42,13 +42,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:textColor="@color/white"
         android:background="@drawable/btn_blue_bg"
         android:text="查询" />
     <zrc.widget.ZrcListView
         android:id="@+id/zListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" 
-        android:divider="@drawable/line"
+        android:divider="#DDDDDD"
+        android:dividerHeight="5dp"
         android:listSelector="#00000000">
     </zrc.widget.ZrcListView>
 </LinearLayout>

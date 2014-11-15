@@ -29,12 +29,13 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.layout_activity_splash);
 		mContext=this;
 		helper=new DBHelper(mContext);
-		boolean is_first_boot=PreferenceUtils.getPrefBoolean(mContext, PreferenceConstants.IS_First_BOOT, false);
-		if(!is_first_boot){
+		boolean is_first_boot=PreferenceUtils.getPrefBoolean(mContext, PreferenceConstants.IS_First_BOOT, true);
+		if(is_first_boot){
 			ContentValues values=new ContentValues();
 			values.put("uname", "admin");
 			values.put("pwd", CryptUtils.md5("123456"));
 			helper.insertUser(values);
+			PreferenceUtils.setPrefBoolean(mContext, PreferenceConstants.IS_First_BOOT, false);
 		}
 		mHandler = new Handler();
 		mHandler.postDelayed(gotoMainAct, 3000);
@@ -49,7 +50,7 @@ public class SplashActivity extends Activity {
 	Runnable gotoMainAct = new Runnable() {
 		@Override
 		public void run() {
-			startActivity(new Intent(SplashActivity.this, MainActivity.class));
+			startActivity(new Intent(SplashActivity.this, LoginActivity.class));
 			finish();
 		}
 	};

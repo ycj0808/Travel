@@ -1,5 +1,7 @@
 package com.android.travel.activity;
 
+import java.text.DecimalFormat;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.travel.R;
@@ -23,7 +25,7 @@ import android.widget.Spinner;
  * 添加菜单
  * @author yangchj
  */
-public class AddMenuActivity extends BaseActivity {
+public class EditMenuActivity extends BaseActivity {
 
 	private ActionBar actionBar;
 	private Context mContext;
@@ -35,6 +37,8 @@ public class AddMenuActivity extends BaseActivity {
 	private Button btn_save;
 	
 	private MenuService menuService;
+	private DecimalFormat format=new DecimalFormat("##0");
+	private int mid=-1;
 	
 	private String unit_type [];
 	private ArrayAdapter<String> adapter;
@@ -53,7 +57,7 @@ public class AddMenuActivity extends BaseActivity {
 		actionBar=getCustomActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setTitle("添加菜单");
+		actionBar.setTitle("修改菜单");
 	}
 	
 	private void initView(){
@@ -70,13 +74,30 @@ public class AddMenuActivity extends BaseActivity {
 		 //设置下拉列表的风格
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+		initData();
+	}
+	
+	/**
+	 * 初始化数据
+	 */
+	private void initData(){
+		Bundle bundle=getIntent().getExtras();
+		if(bundle!=null){
+			mid=bundle.getInt("mid");
+			et_menu_name.setText(bundle.getString("mname"));
+			et_menu_price.setText(format.format(bundle.getDouble("mprice")));
+			et_menu_remark.setText(bundle.getString("mremark"));
+			cur_item=bundle.getInt("unit");
+			spinner.setSelection(cur_item);
+		}
 	}
 	/**
 	 * 监听事件
 	 */
 	private void setListener(){
-		//选择
+		//
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
 				cur_item=arg2;
@@ -102,25 +123,24 @@ public class AddMenuActivity extends BaseActivity {
 					ToastUtil.showShort(mContext, "请填写菜单单价");
 					return;
 				}
+				if(mid==-1){
+					ToastUtil.showShort(mContext, "数据错误");
+					return;
+				}
 				//添加菜单
 				handler.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						
-						boolean isExist=menuService.isExistsMenu(menu_name);
-						if(isExist){
-							ToastUtil.showShort(mContext, "该菜单名已存在！");
-							return;
-						}
-						long res=menuService.addMenu(menu_name, CommonUtil.getGUID(), Double.valueOf(menu_price), menu_remark,cur_item);
-						if(res!=-1){
-							ToastUtil.showShort(mContext, "添加菜单成功！");
-							clearData();
+//						long res=menuService.addMenu(menu_name, CommonUtil.getGUID(), Double.valueOf(menu_price), menu_remark);
+						int res=menuService.updateMenu(mid, menu_name, Double.valueOf(menu_price), menu_remark,cur_item);
+						if(res!=0){
+							ToastUtil.showShort(mContext, "修改菜单成功！");
+							finish();
 						}else{
-							ToastUtil.showShort(mContext, "添加菜单失败！");
+							ToastUtil.showShort(mContext, "修改菜单失败！");
 						}
 					}
-				}, 200);
+				}, 500);
 			}
 		});
 	}

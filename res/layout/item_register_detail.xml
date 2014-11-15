@@ -15,27 +15,26 @@
 	<TextView android:id="@+id/tv_menu_name"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:textColor="@color/tv_gray"
+	    android:layout_toRightOf="@+id/tv_menu_name_tip"
+	    android:layout_marginLeft="10dp"
+	    android:textColor="@color/base_red"
 	    android:textSize="16sp"
 	    android:text="住房"/>
 	<TextView 
 	    android:id="@+id/tv_menu_price_tip"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/tv_menu_name_tip"
-	    android:layout_marginTop="10dp"
+	    android:layout_toRightOf="@+id/tv_menu_name"
+	    android:layout_marginLeft="30dp"
 	    android:textSize="16sp"
 	    android:text="项目单价:(/人)"/>
 	
 	<TextView android:id="@+id/tv_menu_price"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:layout_below="@+id/tv_menu_name_tip"
-	    android:layout_marginLeft="35dp"
-	    android:layout_marginTop="10dp"
-	    android:textColor="@color/tv_gray"
+	    android:layout_toRightOf="@+id/tv_menu_price_tip"
+	    android:layout_marginLeft="10dp"
+	    android:textColor="@color/base_red"
 	    android:textSize="16sp"
 	    android:text=""/>
 	
@@ -50,11 +49,32 @@
 	<TextView android:id="@+id/tv_person_num"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
 	    android:layout_below="@+id/tv_menu_price_tip"
-	    android:layout_marginLeft="35dp"
+	    android:layout_toRightOf="@+id/tv_person_num_tip"
+	    android:layout_marginLeft="10dp"
 	    android:layout_marginTop="10dp"
-	    android:textColor="@color/tv_gray"
+	    android:textColor="@color/base_red"
+	    android:textSize="16sp"
+	    android:text=""/>
+	
+	<TextView 
+	    android:id="@+id/tv_time_tip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_menu_price_tip"
+	    android:layout_toRightOf="@+id/tv_person_num"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginTop="10dp"
+	    android:textSize="16sp"
+	    android:text="参与时长:(天)"/>
+	<TextView android:id="@+id/tv_time"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_menu_price_tip"
+	    android:layout_toRightOf="@+id/tv_time_tip"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginTop="10dp"
+	    android:textColor="@color/base_red"
 	    android:textSize="16sp"
 	    android:text=""/>
 	<TextView 
@@ -69,9 +89,30 @@
 	    android:id="@+id/tv_menu_remark"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_person_num_tip"
+	    android:layout_toRightOf="@+id/tv_menu_remark_tip"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"
+	    android:textColor="@color/base_red"
+	    android:textSize="14sp"
+	    android:text=""/>
+	<TextView 
+	    android:id="@+id/tv_total_amount_tip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/tv_menu_remark_tip"
 	    android:layout_marginTop="10dp"
-	    android:textColor="@color/tv_gray"
+	    android:textSize="16sp"
+	    android:text="分项小计:"/>
+	<TextView 
+	    android:id="@+id/tv_total_amount"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/tv_menu_remark_tip"
+	    android:layout_toRightOf="@+id/tv_total_amount_tip"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginLeft="10dp"
+	    android:textColor="@color/base_red"
 	    android:textSize="14sp"
 	    android:text=""/>
 </RelativeLayout>

@@ -38,19 +38,18 @@
             android:drawableTop="@drawable/rb_consult_blue_bg"
             android:text="菜单管理" />
 
-<!--         <RadioButton
+        <RadioButton
             android:id="@+id/rb_tab_mine"
             style="@style/main_tab_bottom"
             android:layout_marginTop="0.5dip"
             android:drawableTop="@drawable/rb_mine_blue_bg"
-            android:text="@string/rb_mine" />
-
+            android:text="修改密码" />
         <RadioButton
             android:id="@+id/rb_tab_find"
             style="@style/main_tab_bottom"
             android:layout_marginTop="0.5dip"
             android:drawableTop="@drawable/rb_find_blue_bg"
-            android:text="@string/rb_find" /> -->
+            android:text="订单纪录" />
     </RadioGroup>
 
 </LinearLayout>

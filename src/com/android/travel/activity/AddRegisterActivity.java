@@ -11,13 +11,12 @@ import com.android.travel.db.RegisterService;
 import com.android.travel.util.ImageUtils;
 import com.android.travel.util.LogUtil;
 import com.android.travel.util.ToastUtil;
+import com.ycj.android.common.utils.RegexUtils;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -75,8 +74,8 @@ public class AddRegisterActivity extends BaseActivity {
 		btn_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String name=et_name.getText().toString();
-			    String phone=et_phone.getText().toString();			
+				final String name=et_name.getText().toString();
+			    final String phone=et_phone.getText().toString();			
 				if(TextUtils.isEmpty(name)){
 					ToastUtil.showShort(mContext, "请填写客户姓名!");
 					return;
@@ -86,33 +85,47 @@ public class AddRegisterActivity extends BaseActivity {
 					ToastUtil.showShort(mContext, "请填写手机号!");
 					return;
 				}
-				Map<String,Object> map=customerService.getCustomerByPhone(phone);
-				if(map!=null&&map.containsKey("cid")){
-//					ToastUtil.showShort(mContext, "该手机号已经被用户: "+map.get("cname").toString()+" 登记");
-					if(!name.equals(map.get("cname").toString())){
-						LogUtil.i("该手机号已经被用户: "+map.get("cname").toString()+" 登记过");
-						ToastUtil.showShort(mContext, "该手机号已经被用户: "+map.get("cname").toString()+" 登记");
-						return;
-					}else{
-						List<Map<String,Object>> list=registerService.getRegistersByPhone(phone);
-						if(list!=null&&list.size()>0){
-							Map<String,Object> registerMap=list.get(0);
-							String time=registerMap.get("register_time").toString();
-							showAlertDialog("该用户已在"+time+"登记过了,您确定再次登记吗？", Integer.valueOf(map.get("cid").toString()));
+				if(!RegexUtils.checkMobile(phone)){
+					ToastUtil.showShort(mContext, "手机号格式不正确");
+					return;
+				}
+				
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						Map<String,Object> map=customerService.getCustomerByPhone(phone);
+						if(map!=null&&map.containsKey("cid")){
+//							ToastUtil.showShort(mContext, "该手机号已经被用户: "+map.get("cname").toString()+" 登记");
+							if(!name.equals(map.get("cname").toString())){
+								LogUtil.i("该手机号已经被用户: "+map.get("cname").toString()+" 登记过");
+								ToastUtil.showShort(mContext, "该手机号已经被用户: "+map.get("cname").toString()+" 登记");
+								return;
+							}else{
+								List<Map<String,Object>> list=registerService.getRegistersByPhone(phone,1);
+								if(list!=null&&list.size()>0){
+									Map<String,Object> registerMap=list.get(0);
+									String time=registerMap.get("register_time").toString();
+									showAlertDialog("该用户已在"+time+"登记过了,还尚未结账,您确定再次登记吗？", Integer.valueOf(map.get("cid").toString()));
+								}else{
+									registerService.addRegister(Integer.valueOf(map.get("cid").toString()));
+									ToastUtil.showShort(mContext,"保存成功!");
+									finish();
+								}
+							}
+						}else{
+							//注册客户信息
+							int cid=customerService.addCustomer(name, phone);
+							if(cid!=-1){
+								//客户登记
+								registerService.addRegister(cid);
+								ToastUtil.showShort(mContext,"保存成功!");
+								finish();
+							}else{
+								ToastUtil.showShort(mContext,"登记失败!");
+							}
 						}
 					}
-				}else{
-					//注册客户信息
-					int cid=customerService.addCustomer(name, phone);
-					if(cid!=-1){
-						//客户登记
-						registerService.addRegister(cid);
-						ToastUtil.showShort(mContext,"保存成功!");
-						finish();
-					}else{
-						ToastUtil.showShort(mContext,"登记失败!");
-					}
-				}
+				}, 500);
 			}
 		});
 	}

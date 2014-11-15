@@ -68,6 +68,14 @@
         <activity
             android:name="com.android.travel.activity.AddMenuActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />  
+        
+        <activity android:name="com.android.travel.activity.EditMenuActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        
+        <activity android:name="com.android.travel.activity.AddRegisterDetailActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 

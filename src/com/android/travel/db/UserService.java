@@ -2,6 +2,7 @@ package com.android.travel.db;
 
 import com.android.travel.util.LogUtil;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,11 +28,16 @@ public class UserService {
 	 * 修改用户密码
 	 * @param pwd
 	 */
-	public void updateUser(String pwd,int id){
+	public int updateUser(String pwd,int id){
+		int res=0;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="update tb_user set pwd=? where _id=?";
-		db.execSQL(sql, new Object[]{pwd,id});
+//		String sql="update tb_user set pwd=? where _id=?";
+//		db.execSQL(sql, new Object[]{pwd,id});
+		ContentValues values=new ContentValues();
+		values.put("pwd", pwd);
+		res=db.update("tb_user", values, "_id=?", new String[]{String.valueOf(id)});
 		LogUtil.i("修改管理员密码...");
+		return res;
 	}
 	/**
 	 * 登陆验证

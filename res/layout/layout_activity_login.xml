@@ -26,7 +26,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:padding="10dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_toRightOf="@+id/tv_account"
             android:background="@drawable/inputbg_normal"
             android:inputType="text" 
@@ -56,9 +56,10 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:padding="10dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:background="@drawable/inputbg_normal"
             android:layout_toRightOf="@+id/tv_pwd"
+            android:hint="默认密码:123456"
             android:inputType="textPassword" />
     </RelativeLayout>
 
@@ -71,6 +72,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:textColor="@color/white"
         android:text="登陆" />
 
 </RelativeLayout>

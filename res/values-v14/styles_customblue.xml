@@ -29,7 +29,8 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_customblue</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_customblue</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Customblue</item>
-        
+        <item name="android:homeAsUpIndicator">@drawable/icon_back</item> 
+        <item name="homeAsUpIndicator">@drawable/icon_back</item>
                 <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Customblue.Widget</item>
 
@@ -40,11 +41,14 @@
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_customblue</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_customblue</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Customblue</item>
+        <item name="homeAsUpIndicator">@drawable/icon_back</item>
     </style>
 
     <style name="ActionBar.Transparent.Customblue" parent="@style/Widget.Sherlock.ActionBar">
         <item name="android:background">@drawable/ab_transparent_customblue</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Customblue</item>
+        <item name="android:homeAsUpIndicator">@drawable/icon_back</item> 
+        <item name="homeAsUpIndicator">@drawable/icon_back</item>
     </style>
     
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->

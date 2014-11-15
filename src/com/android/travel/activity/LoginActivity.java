@@ -48,6 +48,7 @@ public class LoginActivity extends BaseActivity {
 		actionBar=getCustomActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setTitle("登陆");
 	}
 	

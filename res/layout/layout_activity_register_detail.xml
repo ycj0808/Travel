@@ -1,84 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEEEEE"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_item_notice_selector"
-        android:padding="10dp" >
+        android:background="#EEEEEE"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/tv_username_tip"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/layout_tip"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="客户姓名:" />
+            android:background="@drawable/list_item_notice_selector"
+            android:padding="10dp" >
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="注:消费金额仅供参考,请以实际消费为准!"
+                android:textColor="@color/base_red"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_username_tip"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_username_tip"
-            android:text="" />
+            android:layout_marginTop="5dp"
+            android:background="@drawable/list_item_notice_selector"
+            android:padding="10dp" >
 
-        <TextView
-            android:id="@+id/tv_phone_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-		    android:layout_below="@+id/tv_username_tip"
-            android:layout_marginTop="10dp"
-            android:text="联系方式:" />
+            <TextView
+                android:id="@+id/tv_username_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="客户姓名:" />
 
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_phone_tip"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_phone_tip"
-            android:text="" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_username_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_username_tip"
+                android:text="" />
 
-        <TextView
-            android:id="@+id/tv_datetime_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_phone_tip"
-            android:layout_marginTop="10dp"
-            android:text="登记时间:" />
+            <TextView
+                android:id="@+id/tv_phone_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_username_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_name"
+                android:text="联系方式:" />
 
-        <TextView
-            android:id="@+id/tv_datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_phone_tip"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_datetime_tip"
-            android:text="" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_phone_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_phone_tip"
+                android:text="" />
 
-    <FrameLayout 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp">
-        <ListView android:id="@+id/lv_register_detail"
+            <TextView
+                android:id="@+id/item_num_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_username_tip"
+                android:layout_marginTop="10dp"
+                android:text="参与项目数:" />
+
+            <TextView
+                android:id="@+id/item_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_username_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/item_num_tip"
+                android:text="0"
+                android:textColor="@color/base_red" />
+
+            <TextView
+                android:id="@+id/item_price_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_username_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/item_num"
+                android:text="消费总额:" />
+
+            <TextView
+                android:id="@+id/item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_username_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/item_price_tip"
+                android:text="0"
+                android:textColor="@color/base_red" />
+
+            <TextView
+                android:id="@+id/tv_datetime_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_num_tip"
+                android:layout_marginTop="10dp"
+                android:text="登记时间:" />
+
+            <TextView
+                android:id="@+id/tv_datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_num_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/tv_datetime_tip"
+                android:text="" />
+
+            <Button
+                android:id="@+id/btn_check"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_datetime_tip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_blue_bg"
+                android:text="结账"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@drawable/line"
-            android:listSelector="#00000000"
-            android:visibility="gone"/>
-        <Button android:id="@+id/btn_add"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/btn_blue_bg"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="添加项目"
-            />
-    </FrameLayout>
-</LinearLayout>
+            android:layout_marginTop="20dp" 
+            android:layout_marginBottom="10dp">
+
+            <com.android.travel.ui.ListViewForScrollView
+                android:id="@+id/lv_register_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/line"
+                android:listSelector="#00000000"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_blue_bg"
+                android:text="添加项目"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+</ScrollView>

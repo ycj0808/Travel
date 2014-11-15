@@ -1,7 +1,6 @@
 package com.android.travel.fragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,48 +14,40 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.travel.R;
-import com.android.travel.activity.AddRegisterActivity;
 import com.android.travel.activity.RegisterDetailActivity;
-import com.android.travel.db.DBHelper;
 import com.android.travel.db.RegisterService;
-import com.android.travel.util.ImageUtils;
+import com.android.travel.fragment.MainFragment.RegisterAdapter;
+import com.android.travel.fragment.MainFragment.RegisterAdapter.ViewHolder;
 import com.android.travel.util.SerializableMap;
-import com.android.travel.util.TimeUtil;
 import com.android.travel.util.ToastUtil;
 /**
- * 主页片段
+ * 发现
  * @author yangchj
- * @date 2014-10-25 下午9:45:18
+ * @date 2014-10-25 下午9:48:54
  */
-public class MainFragment extends SherlockFragment {
+public class OrderHistFragment extends SherlockFragment {
 
 	private Button btn_search;
 	private Spinner spinner;
@@ -89,7 +80,7 @@ public class MainFragment extends SherlockFragment {
 	public void onActivityCreated( Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-		getActivity().setTitle("用户登记列表");
+		getActivity().setTitle("订单纪录");
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -190,7 +181,7 @@ public class MainFragment extends SherlockFragment {
 				sMap.setMap(map);
 				Bundle bundle=new Bundle();
 				bundle.putSerializable("data", sMap);
-				bundle.putInt("status", 1);
+				bundle.putInt("status", 2);
 				Intent intent=new Intent(getActivity(),RegisterDetailActivity.class);
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -201,10 +192,10 @@ public class MainFragment extends SherlockFragment {
 			@SuppressWarnings("unchecked")
 			@Override
 			public boolean onItemLongClick(ZrcListView parent, View view, int position,long id) {
-//				Map<String,Object> map=(Map<String, Object>) parent.getItemAtPosition(position); 
-//				if(map!=null){
-//					showConfirmDialog("您确认要删除该项吗?",Integer.valueOf(map.get("rid").toString()),position);
-//				}
+				Map<String,Object> map=(Map<String, Object>) parent.getItemAtPosition(position); 
+				if(map!=null){
+					showConfirmDialog("您确认要删除该项吗?",Integer.valueOf(map.get("rid").toString()),position);
+				}
 				return true;
 			}
 		});
@@ -307,7 +298,7 @@ public class MainFragment extends SherlockFragment {
 				public void run() {
 					PAGE_NUM=0;
 					listUsers.clear();
-					listUsers=registerService.getRegisters(1,PAGE_NUM*PAGE_SIZE, PAGE_SIZE);
+					listUsers=registerService.getRegisters(2,PAGE_NUM*PAGE_SIZE, PAGE_SIZE);
 					if(listUsers.size()==0){
 						count=0;
 						ToastUtil.showShort(getActivity(), "没有查询到数据");
@@ -331,7 +322,7 @@ public class MainFragment extends SherlockFragment {
 				public void run() {
 					PAGE_NUM=0;
 					listUsers.clear();
-					listUsers=registerService.getRegistersByName(et_search.getText().toString(),1);
+					listUsers=registerService.getRegistersByName(et_search.getText().toString(),2);
 					if(listUsers.size()==0){
 						ToastUtil.showShort(getActivity(), "没有查询到数据");
 					}
@@ -350,7 +341,7 @@ public class MainFragment extends SherlockFragment {
 				public void run() {
 					PAGE_NUM=0;
 					listUsers.clear();
-					listUsers=registerService.getRegistersByPhone(et_search.getText().toString(),1);
+					listUsers=registerService.getRegistersByPhone(et_search.getText().toString(),2);
 					if(listUsers.size()==0){
 						ToastUtil.showShort(getActivity(), "没有查询到数据");
 					}
@@ -372,7 +363,7 @@ public class MainFragment extends SherlockFragment {
 	            	PAGE_NUM++;
 	            	int firstRes=PAGE_NUM*PAGE_SIZE;
 	            	if(firstRes<count){
-	            		List<Map<String,Object>> list=registerService.getRegisters(1,firstRes+1, PAGE_SIZE);
+	            		List<Map<String,Object>> list=registerService.getRegisters(2,firstRes+1, PAGE_SIZE);
 	            		listUsers.addAll(list);
 		            	registerAdapter.notifyDataSetChanged();
 		            	zListView.setLoadMoreSuccess();
@@ -387,32 +378,4 @@ public class MainFragment extends SherlockFragment {
 			return;
 		}
 	}
-	
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		MenuItem addItem=menu.add(Menu.NONE, 0, 0, "添加");
-		addItem.setIcon(R.drawable.icon_add);
-		addItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()){
-		case 0:
-			Intent intent=new Intent(getActivity(),AddRegisterActivity.class);
-			startActivity(intent);
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }
-
-
-
-
-
-
-
-
-

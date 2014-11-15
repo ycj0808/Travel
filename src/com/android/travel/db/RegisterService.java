@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.android.travel.util.LogUtil;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,12 +38,12 @@ public class RegisterService {
 	 * @param maxResult
 	 * @return
 	 */
-	public List<Map<String,Object>> getRegisters(int firstResult,int maxResult){
+	public List<Map<String,Object>> getRegisters(int status,int firstResult,int maxResult){
 		SQLiteDatabase db=helper.getWritableDatabase();
-		int count=getRegistersCounts();
+		int count=getRegistersCounts(status);
 		List<Map<String,Object>> listRegisters=new ArrayList<Map<String,Object>>();
-		String sql="select r._id,r.cid,c.cname,c.cphone,datetime(r.register_time,'localtime') register_time from tb_custom c inner join tb_register r on r.cid=c._id limit ? offset ?";
-		Cursor cursor=db.rawQuery(sql, new String[]{String.valueOf(maxResult),String.valueOf(firstResult)});
+		String sql="select r._id,r.cid,c.cname,c.cphone,register_time from tb_custom c inner join tb_register r on r.cid=c._id and r.status=? order by register_time desc limit ? offset ? ";
+		Cursor cursor=db.rawQuery(sql, new String[]{String.valueOf(status),String.valueOf(maxResult),String.valueOf(firstResult)});
 		while(cursor.moveToNext()){
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("rid", cursor.getInt(0));
@@ -61,11 +62,11 @@ public class RegisterService {
 	 * 获取登记数量
 	 * @return
 	 */
-	public int getRegistersCounts(){
+	public int getRegistersCounts(int status){
 		int count=0;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="select count(r._id) from tb_custom c inner join tb_register r on r.cid=c._id";
-		Cursor cursor=db.rawQuery(sql, null);
+		String sql="select count(r._id) from tb_custom c inner join tb_register r on r.cid=c._id and r.status=?";
+		Cursor cursor=db.rawQuery(sql, new String[]{String.valueOf(status)});
 		if(cursor.moveToNext()){
 			count=cursor.getInt(0);
 		}
@@ -78,10 +79,10 @@ public class RegisterService {
 	 * @param name
 	 * @return
 	 */
-	public List<Map<String,Object>> getRegistersByName(String name){
+	public List<Map<String,Object>> getRegistersByName(String name,int status){
 		SQLiteDatabase db=helper.getWritableDatabase();
 		List<Map<String,Object>> listRegisters=new ArrayList<Map<String,Object>>();
-		Cursor cursor=db.rawQuery("select r._id,cid,cname,cphone,datetime(r.register_time,'localtime') register_time from tb_custom c inner join tb_register r on r.cid=c._id and c.cname like ?", new String[]{"%"+name+"%"});
+		Cursor cursor=db.rawQuery("select r._id,cid,cname,cphone,register_time from tb_custom c inner join tb_register r on r.cid=c._id and c.cname like ? and r.status=? order by register_time desc", new String[]{"%"+name+"%",String.valueOf(status)});
 		while(cursor.moveToNext()){
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("rid", cursor.getInt(0));
@@ -100,10 +101,10 @@ public class RegisterService {
 	 * @param phone
 	 * @return
 	 */
-	public List<Map<String,Object>> getRegistersByPhone(String phone){
+	public List<Map<String,Object>> getRegistersByPhone(String phone,int status){
 		SQLiteDatabase db=helper.getWritableDatabase();
 		List<Map<String,Object>> listRegisters=new ArrayList<Map<String,Object>>();
-		Cursor cursor=db.rawQuery("select r._id,cid,cname,cphone,datetime(r.register_time,'localtime') register_time from tb_custom c inner join tb_register r on r.cid=c._id and c.cphone like ? order by register_time desc", new String[]{"%"+phone+"%"});
+		Cursor cursor=db.rawQuery("select r._id,cid,cname,cphone,register_time from tb_custom c inner join tb_register r on r.cid=c._id and c.cphone like ? and r.status=? order by register_time desc", new String[]{"%"+phone+"%",String.valueOf(status)});
 		while(cursor.moveToNext()){
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("rid", cursor.getInt(0));
@@ -118,15 +119,50 @@ public class RegisterService {
 		return listRegisters;			
 	}
 	
+	/**
+	 * 修改状态
+	 * @param rid
+	 * @return
+	 */
+	public int delRegister(int rid){
+		int res=0;
+		SQLiteDatabase db=helper.getWritableDatabase();
+		ContentValues values=new ContentValues();
+		values.put("status", 0);
+		res=db.update("tb_register", values, "_id=?", new String[]{String.valueOf(rid)});
+		return res;
+	}
+	/**
+	 * 修改状态
+	 * @param rid
+	 * @return
+	 */
+	public int updateRegister(int rid){
+		int res=0;
+		SQLiteDatabase db=helper.getWritableDatabase();
+		ContentValues values=new ContentValues();
+		values.put("status", 2);//结账
+		res=db.update("tb_register", values, "_id=?", new String[]{String.valueOf(rid)});
+		return res;
+	}
+	
 	/****************************************
 				注册详情相关操作
 	tb_register_detail(_id integer primary key autoincrement,rid integer,mid integer,person_num integer)			
 	****************************************/
-	public void addRegisterDetail(int rid,int mid,int num){
+	public long addRegisterDetail(int rid,int mid,int num,int dayorhours){
+		long res=-1;
 		SQLiteDatabase db=helper.getWritableDatabase();
-		String sql="insert into tb_register_detail(rid,mid,person_num) values(?,?,?)";
-		db.execSQL(sql, new Object[]{rid,mid,num});
+//		String sql="insert into tb_register_detail(rid,mid,person_num) values(?,?,?)";
+//		db.execSQL(sql, new Object[]{rid,mid,num});
+		ContentValues values=new ContentValues();
+		values.put("rid", rid);
+		values.put("mid", mid);
+		values.put("person_num", num);
+		values.put("dayorhour", dayorhours);
+		res=db.insert("tb_register_detail", null, values);
 		LogUtil.i("添加用户登记详情纪录...");
+		return res;
 	}
 	/**
 	 * 查询用户登记项纪录
@@ -136,7 +172,7 @@ public class RegisterService {
 	public List<Map<String,Object>> getRegisterDetails(int rid){
 		SQLiteDatabase db=helper.getWritableDatabase();
 		List<Map<String,Object>> listData=new ArrayList<Map<String,Object>>();
-		Cursor cursor=db.rawQuery("select rd._id,rd.rid,rd.mid,m.mname,m.mtype,m.mprice,m.mremark,rd.person_num from tb_register_detail rd inner join tb_register r join tb_menu m on rd.rid=r._id and rd.mid=m._id and rd.rid=?", new String[]{String.valueOf(rid)});
+		Cursor cursor=db.rawQuery("select rd._id,rd.rid,rd.mid,m.mname,m.mtype,m.mprice,m.mremark,rd.person_num,rd.dayorhour,m.unit from tb_register_detail rd inner join tb_register r join tb_menu m on rd.rid=r._id and rd.mid=m._id and rd.rid=?", new String[]{String.valueOf(rid)});
 		while(cursor.moveToNext()){
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("rdid", cursor.getInt(0));
@@ -147,10 +183,23 @@ public class RegisterService {
 			map.put("mprice", cursor.getDouble(5));
 			map.put("mremark", cursor.getString(6));
 			map.put("person_num", cursor.getInt(7));
+			map.put("dayorhour", cursor.getInt(8));
+			map.put("unit", cursor.getInt(9));
 			listData.add(map);
 		}
 		cursor.close();
 		LogUtil.i("查询用户登记详情纪录"+listData.toString());
 		return listData;
+	}
+	/**
+	 * 删除登记详情单项
+	 * @param rdid
+	 * @return
+	 */
+	public int deleteRegisterDetail(int rdid){
+		int res=0;
+		SQLiteDatabase db=helper.getWritableDatabase();
+		res=db.delete("tb_register_detail", "_id=?", new String[]{String.valueOf(rdid)});
+		return res;
 	}
 }

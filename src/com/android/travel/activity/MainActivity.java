@@ -2,10 +2,10 @@ package com.android.travel.activity;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.android.travel.R;
-import com.android.travel.fragment.ConsultFragment;
-import com.android.travel.fragment.FindFragment;
+import com.android.travel.fragment.MenuFragment;
+import com.android.travel.fragment.OrderHistFragment;
 import com.android.travel.fragment.MainFragment;
-import com.android.travel.fragment.MineFragment;
+import com.android.travel.fragment.EditPassWordFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -23,12 +23,12 @@ public class MainActivity extends BaseFragmentActivity {
 	public ActionBar actionBar;
 	public static FragmentManager fMgr;
 	private MainFragment mainFragment;
-	private ConsultFragment consultFragment;
-//	private MineFragment mineFragment;
-//	private FindFragment findFragment;
+	private MenuFragment menuFragment;
+	private EditPassWordFragment editPassWordFragment;
+    private OrderHistFragment orderHistFragment;
 
 	private RadioGroup rg;
-	private RadioButton[] rb = new RadioButton[2];
+	private RadioButton[] rb = new RadioButton[4];
 	private FrameLayout tabcontent;
 	private int curr_item = 0;
 	@Override
@@ -87,8 +87,8 @@ public class MainActivity extends BaseFragmentActivity {
 		rg = (RadioGroup) findViewById(R.id.main_tab);
 		rb[0] = (RadioButton) findViewById(R.id.rb_tab_home);
 		rb[1] = (RadioButton) findViewById(R.id.rb_tab_consult);
-//		rb[2] = (RadioButton) findViewById(R.id.rb_tab_mine);
-//		rb[3] = (RadioButton) findViewById(R.id.rb_tab_find);
+		rb[2] = (RadioButton) findViewById(R.id.rb_tab_mine);
+		rb[3] = (RadioButton) findViewById(R.id.rb_tab_find);//订单纪录
 	}
 
 	/**
@@ -125,26 +125,26 @@ public class MainActivity extends BaseFragmentActivity {
 			break;
 
 		case 1:
-			if (consultFragment== null) {
-				consultFragment=new ConsultFragment();
+			if (menuFragment== null) {
+				menuFragment=new MenuFragment();
 			}
-			ft.replace(R.id.tabcontent, consultFragment, "consultFragment");
+			ft.replace(R.id.tabcontent, menuFragment, "menuFragment");
 			ft.commitAllowingStateLoss();
 			break;
-//		case 2:
-//			if (mineFragment== null) {
-//				mineFragment=new MineFragment();
-//			}
-//			ft.replace(R.id.tabcontent, mineFragment, "mineFragment");
-//			ft.commitAllowingStateLoss();
-//			break;
-//		case 3:
-//			if (findFragment== null) {
-//				findFragment=new FindFragment();
-//			}
-//			ft.replace(R.id.tabcontent, findFragment, "findFragment");
-//			ft.commitAllowingStateLoss();
-//			break;
+		case 2:
+			if (editPassWordFragment== null) {
+				editPassWordFragment=new EditPassWordFragment();
+			}
+			ft.replace(R.id.tabcontent, editPassWordFragment, "editPassWordFragment");
+			ft.commitAllowingStateLoss();
+			break;
+		case 3:
+			if (orderHistFragment== null) {
+				orderHistFragment=new OrderHistFragment();
+			}
+			ft.replace(R.id.tabcontent, orderHistFragment, "orderHistFragment");
+			ft.commitAllowingStateLoss();
+			break;
 		}
 	}
 	/**
@@ -161,12 +161,12 @@ public class MainActivity extends BaseFragmentActivity {
 		case 1:
 			rg.check(R.id.rb_tab_consult);
 			break;
-//		case 2:
-//			rg.check(R.id.rb_tab_mine);
-//			break;
-//		case 3:
-//			rg.check(R.id.rb_tab_find);
-//			break;			
+		case 2:
+			rg.check(R.id.rb_tab_mine);
+			break;
+		case 3:
+			rg.check(R.id.rb_tab_find);
+			break;			
 		}
 	}
 	
@@ -194,12 +194,12 @@ public class MainActivity extends BaseFragmentActivity {
 				case R.id.rb_tab_consult:
 					curr_item=1;
 					break;
-//				case R.id.rb_tab_mine:
-//					curr_item=2;
-//					break;
-//				case R.id.rb_tab_find:
-//					curr_item=3;
-//					break;					
+				case R.id.rb_tab_mine:
+					curr_item=2;  
+					break;
+				case R.id.rb_tab_find:
+					curr_item=3;
+					break;					
 				}
 				setCurrFragment(curr_item);
 			}
